@@ -20,12 +20,21 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'groonga/log/version'
 
+clean_white_space = lambda do |entry|
+  entry.gsub(/(\A\n+|\n+\z)/, '') + "\n"
+end
+
 Gem::Specification.new do |spec|
   spec.name          = "groonga-log"
   spec.version       = Groonga::Log::VERSION
 
   spec.authors       = ["Horimoto Yasuhiro"]
   spec.email         = ["horimoto@clear-code.com"]
+
+  readme = File.read("README.md", :encoding => "UTF-8")
+  entries = readme.split(/^\#\#\s(.*)$/)
+  description = clean_white_space.call(entries[entries.index("Description") + 1])
+  spec.summary, spec.description, = description.split(/\n\n+/, 3)
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})

@@ -6,7 +6,12 @@ groonga-log
 
 ## Description
 
-TODO:
+Groonga-log is a collection of library and tools to
+process [Groonga](http://groonga.org/)'s log.
+
+Groonga's log is logged when `--log-path` option is specified. You can
+write a program to process Groonga log by using groonga-log as a
+library.
 
 ## Installation
 
