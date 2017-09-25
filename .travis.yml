@@ -1,0 +1,9 @@
+notifications:
+  recipients:
+    - groonga-commit@lists.osdn.me
+rvm:
+  - 2.2
+  - 2.3
+  - 2.4
+before_install:
+  - gem update bundler
