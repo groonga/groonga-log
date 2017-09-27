@@ -14,6 +14,20 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-require "groonga-log/parser"
-require "groonga-log/statistic"
-require "groonga-log/version"
+module GroongaLog
+  class Statistic < Struct.new(:timestamp,
+                               :year,
+                               :month,
+                               :day,
+                               :hour,
+                               :minute,
+                               :second,
+                               :micro_second,
+                               :log_level,
+                               :context_id,
+                               :message)
+    def timestamp
+      super || Time.local(year, month, day, hour, minute, second, micro_second)
+    end
+  end
+end

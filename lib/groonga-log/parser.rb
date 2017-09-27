@@ -15,6 +15,8 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+require "groonga-log/statistic"
+
 module GroongaLog
   class Parser
     PATTERN =
@@ -31,33 +33,18 @@ module GroongaLog
         next unless line.valid_encoding?
         m = PATTERN.match(line)
 
-        year = Integer(m['year'])
-        month = Integer(m['month'])
-        day = Integer(m['day'])
-        hour = Integer(m['hour'])
-        minute = Integer(m['minute'])
-        second = Integer(m['second'])
-        micro_second = Integer(m['micro_second'])
-        log_level = log_level_to_symbol(m['log_level'])
-        context_id = m['context_id']
-        message = m['message']
-        timestamp = Time.local(year, month, day,
-                               hour, minute, second, micro_second)
-
-        record = {
-          :timestamp => timestamp,
-          :year => year,
-          :month => month,
-          :day => day,
-          :hour => hour,
-          :minute => minute,
-          :second => second,
-          :micro_second => micro_second,
-          :log_level => log_level,
-          :context_id => context_id,
-          :message => message,
-        }
-        yield record
+        statistic = Statistic.new
+        statistic.year = Integer(m['year'])
+        statistic.month = Integer(m['month'])
+        statistic.day = Integer(m['day'])
+        statistic.hour = Integer(m['hour'])
+        statistic.minute = Integer(m['minute'])
+        statistic.second = Integer(m['second'])
+        statistic.micro_second = Integer(m['micro_second'])
+        statistic.log_level = log_level_to_symbol(m['log_level'])
+        statistic.context_id = m['context_id']
+        statistic.message = m['message']
+        yield statistic
       end
     end
 
