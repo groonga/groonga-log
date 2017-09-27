@@ -18,7 +18,11 @@
 module GroongaLog
   class Parser
     PATTERN =
-      /\A(?<year>\d{4})-(?<month>\d\d)-(?<day>\d\d) (?<hour>\d\d):(?<minutes>\d\d):(?<seconds>\d\d)\.(?<micro_seconds>\d+)\|(?<log_level>.)\|(?<context_id>.+?)\|(?<message>.*)/
+      /\A(?<year>\d{4})-(?<month>\d\d)-(?<day>\d\d)
+          \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)
+          \|(?<log_level>.)
+          \|(?<context_id>.+?)
+          \|(?<message>.*)/x
 
     def parse(input)
       return to_enum(:parse, input) unless block_given?
@@ -31,14 +35,14 @@ module GroongaLog
         month = Integer(m['month'])
         day = Integer(m['day'])
         hour = Integer(m['hour'])
-        minutes = Integer(m['minutes'])
-        seconds = Integer(m['seconds'])
-        micro_seconds = Integer(m['micro_seconds'])
+        minute = Integer(m['minute'])
+        second = Integer(m['second'])
+        micro_second = Integer(m['micro_second'])
         log_level = log_level_to_symbol(m['log_level'])
         context_id = m['context_id']
         message = m['message']
         timestamp = Time.local(year, month, day,
-                               hour, minutes, seconds, micro_seconds)
+                               hour, minute, second, micro_second)
 
         record = {
           :timestamp => timestamp,
@@ -46,9 +50,9 @@ module GroongaLog
           :month => month,
           :day => day,
           :hour => hour,
-          :minutes => minutes,
-          :seconds => seconds,
-          :micro_seconds => micro_seconds,
+          :minute => minute,
+          :second => second,
+          :micro_second => micro_second,
           :log_level => log_level,
           :context_id => context_id,
           :message => message,
