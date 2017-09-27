@@ -29,5 +29,11 @@ module GroongaLog
     def timestamp
       super || Time.local(year, month, day, hour, minute, second, micro_second)
     end
+
+    def to_h
+      hash = super
+      hash[:timestamp] ||= timestamp
+      hash
+    end
   end
 end

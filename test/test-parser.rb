@@ -18,16 +18,9 @@
 require "helper"
 
 class ParserTest < Test::Unit::TestCase
-  def create_statistic(args)
-    statistic = GroongaLog::Statistic.new
-    args.each do |key, value|
-      statistic[key] = value
-    end
-    statistic
-  end
-
   def test_extract_field
     raw_statistic = {
+      :timestamp => Time.local(2017, 7, 19, 14, 41, 5, 663978),
       :year => 2017,
       :month => 7,
       :day => 19,
@@ -39,19 +32,11 @@ class ParserTest < Test::Unit::TestCase
       :context_id => "18c61700",
       :message => "spec:2:update:Object:32(type):8",
     }
-    expected = [create_statistic(raw_statistic)]
     statistics = parse(<<-LOG)
 2017-07-19 14:41:05.663978|n|18c61700|spec:2:update:Object:32(type):8
     LOG
-    assert_equal(expected, statistics)
-  end
-
-  def test_timestamp
-    statistics = parse(<<-LOG)
-2017-07-19 14:41:05.663978|n|18c61700|spec:2:update:Object:32(type):8
-    LOG
-    assert_equal([Time.local(2017, 7, 19, 14, 41, 5, 663978)],
-                 statistics.collect(&:timestamp))
+    assert_equal([raw_statistic],
+                 statistics.collect(&:to_h))
   end
 
   def test_log_level
