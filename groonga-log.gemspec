@@ -18,7 +18,7 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'groonga/log/version'
+require 'groonga-log/version'
 
 clean_white_space = lambda do |entry|
   entry.gsub(/(\A\n+|\n+\z)/, '') + "\n"
@@ -26,7 +26,7 @@ end
 
 Gem::Specification.new do |spec|
   spec.name          = "groonga-log"
-  spec.version       = Groonga::Log::VERSION
+  spec.version       = GroongaLog::VERSION
 
   spec.authors       = ["Horimoto Yasuhiro"]
   spec.email         = ["horimoto@clear-code.com"]
@@ -46,4 +46,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
+
+  spec.add_development_dependency("test-unit")
+  spec.add_development_dependency("test-unit-notify")
 end
