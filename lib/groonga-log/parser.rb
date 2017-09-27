@@ -34,13 +34,13 @@ module GroongaLog
         m = PATTERN.match(line)
 
         statistic = Statistic.new
-        statistic.year = Integer(m['year'])
-        statistic.month = Integer(m['month'])
-        statistic.day = Integer(m['day'])
-        statistic.hour = Integer(m['hour'])
-        statistic.minute = Integer(m['minute'])
-        statistic.second = Integer(m['second'])
-        statistic.micro_second = Integer(m['micro_second'])
+        statistic.year = m['year'].to_i
+        statistic.month = m['month'].to_i
+        statistic.day = m['day'].to_i
+        statistic.hour = m['hour'].to_i
+        statistic.minute = m['minute'].to_i
+        statistic.second = m['second'].to_i
+        statistic.micro_second = m['micro_second'].to_i
         statistic.log_level = log_level_to_symbol(m['log_level'])
         statistic.context_id = m['context_id']
         statistic.message = m['message']
