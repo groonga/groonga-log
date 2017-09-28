@@ -16,24 +16,8 @@
 
 module GroongaLog
   class Statistic < Struct.new(:timestamp,
-                               :year,
-                               :month,
-                               :day,
-                               :hour,
-                               :minute,
-                               :second,
-                               :micro_second,
                                :log_level,
                                :context_id,
                                :message)
-    def timestamp
-      super || Time.local(year, month, day, hour, minute, second, micro_second)
-    end
-
-    def to_h
-      hash = super
-      hash[:timestamp] ||= timestamp
-      hash
-    end
   end
 end

@@ -21,13 +21,6 @@ class ParserTest < Test::Unit::TestCase
   def test_extract_field
     raw_statistic = {
       :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
-      :year => 2017,
-      :month => 7,
-      :day => 19,
-      :hour => 14,
-      :minute => 9,
-      :second => 5,
-      :micro_second => 663978,
       :log_level => :notice,
       :context_id => "18c61700",
       :message => "spec:2:update:Object:32(type):8",
