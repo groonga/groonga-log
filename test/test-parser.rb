@@ -20,12 +20,12 @@ require "helper"
 class ParserTest < Test::Unit::TestCase
   def test_extract_field
     raw_statistic = {
-      :timestamp => Time.local(2017, 7, 19, 14, 41, 5, 663978),
+      :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
       :year => 2017,
       :month => 7,
       :day => 19,
       :hour => 14,
-      :minute => 41,
+      :minute => 9,
       :second => 5,
       :micro_second => 663978,
       :log_level => :notice,
@@ -33,7 +33,7 @@ class ParserTest < Test::Unit::TestCase
       :message => "spec:2:update:Object:32(type):8",
     }
     statistics = parse(<<-LOG)
-2017-07-19 14:41:05.663978|n|18c61700|spec:2:update:Object:32(type):8
+2017-07-19 14:09:05.663978|n|18c61700|spec:2:update:Object:32(type):8
     LOG
     assert_equal([raw_statistic],
                  statistics.collect(&:to_h))
