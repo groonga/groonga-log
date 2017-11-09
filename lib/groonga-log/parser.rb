@@ -23,7 +23,7 @@ module GroongaLog
       /\A(?<year>\d{4})-(?<month>\d\d)-(?<day>\d\d)
           \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)
           \|(?<log_level>.)
-          \|(?:(?<context_id>.+?):)?
+          \|(?:(?<pid>\d+):)?
           \ (?<message>.*)/x
 
     def parse(input)
@@ -45,7 +45,7 @@ module GroongaLog
         statistic.timestamp = Time.local(year, month, day,
                                          hour, minute, second, micro_second)
         statistic.log_level = log_level_to_symbol(m['log_level'])
-        statistic.context_id = m['context_id']
+        statistic.pid = m['pid'].to_i if m['pid']
         statistic.message = m['message']
         yield statistic
       end

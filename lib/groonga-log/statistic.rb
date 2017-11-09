@@ -17,7 +17,7 @@
 module GroongaLog
   class Statistic < Struct.new(:timestamp,
                                :log_level,
-                               :context_id,
+                               :pid,
                                :message)
   end
 end

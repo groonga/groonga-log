@@ -22,7 +22,7 @@ class ParserTest < Test::Unit::TestCase
     raw_statistic = {
       :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
       :log_level => :notice,
-      :context_id => "29",
+      :pid => 29,
       :message => "spec:2:update:Object:32(type):8",
     }
     statistics = parse(<<-LOG)
@@ -59,11 +59,11 @@ class ParserTest < Test::Unit::TestCase
                  statistics.collect(&:log_level))
   end
 
-  def test_extract_field_no_context_id
+  def test_extract_field_no_pid
     raw_statistic = {
       :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
       :log_level => :notice,
-      :context_id => nil,
+      :pid => nil,
       :message => "spec:2:update:Object:32(type):8",
     }
     statistics = parse(<<-LOG)
@@ -73,7 +73,7 @@ class ParserTest < Test::Unit::TestCase
                  statistics.collect(&:to_h))
   end
 
-  def test_log_level_no_context_id
+  def test_log_level_no_pid
     expected = [
       :emergency,
       :alert,
