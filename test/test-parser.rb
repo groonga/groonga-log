@@ -59,6 +59,47 @@ class ParserTest < Test::Unit::TestCase
                  statistics.collect(&:log_level))
   end
 
+  def test_extract_field_no_context_id
+    raw_statistic = {
+      :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
+      :log_level => :notice,
+      :context_id => nil,
+      :message => " spec:2:update:Object:32(type):8",
+    }
+    statistics = parse(<<-LOG)
+2017-07-19 14:09:05.663978|n| spec:2:update:Object:32(type):8
+    LOG
+    assert_equal([raw_statistic],
+                 statistics.collect(&:to_h))
+  end
+
+  def test_log_level_no_context_id
+    expected = [
+      :emergency,
+      :alert,
+      :critical,
+      :error,
+      :warning,
+      :notice,
+      :information,
+      :debug,
+      :dump
+    ]
+    statistics = parse(<<-LOG)
+2017-07-19 14:41:05.663978|E| emergency
+2017-07-19 14:41:06.663978|A| alert
+2017-07-19 14:41:06.663978|C| critical
+2017-07-19 14:41:06.663978|e| error
+2017-07-19 14:41:06.663978|w| warning
+2017-07-19 14:41:06.663978|n| notice
+2017-07-19 14:41:06.663978|i| information
+2017-07-19 14:41:06.663978|d| debug
+2017-07-19 14:41:06.663978|-| dump
+    LOG
+    assert_equal(expected,
+                 statistics.collect(&:log_level))
+  end
+
   private
   def parse(log)
     parser = GroongaLog::Parser.new
