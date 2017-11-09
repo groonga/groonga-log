@@ -22,11 +22,11 @@ class ParserTest < Test::Unit::TestCase
     raw_statistic = {
       :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
       :log_level => :notice,
-      :context_id => "18c61700",
+      :context_id => "29",
       :message => "spec:2:update:Object:32(type):8",
     }
     statistics = parse(<<-LOG)
-2017-07-19 14:09:05.663978|n|18c61700|spec:2:update:Object:32(type):8
+2017-07-19 14:09:05.663978|n|29: spec:2:update:Object:32(type):8
     LOG
     assert_equal([raw_statistic],
                  statistics.collect(&:to_h))
@@ -45,15 +45,15 @@ class ParserTest < Test::Unit::TestCase
       :dump
     ]
     statistics = parse(<<-LOG)
-2017-07-19 14:41:05.663978|E|18c61700|emergency
-2017-07-19 14:41:06.663978|A|18c61700|alert
-2017-07-19 14:41:06.663978|C|18c61700|critical
-2017-07-19 14:41:06.663978|e|18c61700|error
-2017-07-19 14:41:06.663978|w|18c61700|warning
-2017-07-19 14:41:06.663978|n|18c61700|notice
-2017-07-19 14:41:06.663978|i|18c61700|information
-2017-07-19 14:41:06.663978|d|18c61700|debug
-2017-07-19 14:41:06.663978|-|18c61700|dump
+2017-07-19 14:41:05.663978|E|29: emergency
+2017-07-19 14:41:06.663978|A|29: alert
+2017-07-19 14:41:06.663978|C|29: critical
+2017-07-19 14:41:06.663978|e|29: error
+2017-07-19 14:41:06.663978|w|29: warning
+2017-07-19 14:41:06.663978|n|29: notice
+2017-07-19 14:41:06.663978|i|29: information
+2017-07-19 14:41:06.663978|d|29: debug
+2017-07-19 14:41:06.663978|-|29: dump
     LOG
     assert_equal(expected,
                  statistics.collect(&:log_level))
@@ -64,7 +64,7 @@ class ParserTest < Test::Unit::TestCase
       :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
       :log_level => :notice,
       :context_id => nil,
-      :message => " spec:2:update:Object:32(type):8",
+      :message => "spec:2:update:Object:32(type):8",
     }
     statistics = parse(<<-LOG)
 2017-07-19 14:09:05.663978|n| spec:2:update:Object:32(type):8

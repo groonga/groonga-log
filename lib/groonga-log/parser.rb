@@ -19,32 +19,21 @@ require "groonga-log/statistic"
 
 module GroongaLog
   class Parser
-    PATTERNS = {
-      :context_id_pattern =>
+    PATTERN =
       /\A(?<year>\d{4})-(?<month>\d\d)-(?<day>\d\d)
           \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)
           \|(?<log_level>.)
-          \|(?<context_id>.+?)
-          \|(?<message>.*)/x,
-      :no_context_id_pattern =>
-      /\A(?<year>\d{4})-(?<month>\d\d)-(?<day>\d\d)
-          \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)
-          \|(?<log_level>.)
-          \|(?<message>.*)/x
-    }
+          \|(?:(?<context_id>.+?):)?
+          \ (?<message>.*)/x
 
     def parse(input)
       return to_enum(:parse, input) unless block_given?
 
       input.each_line do |line|
         next unless line.valid_encoding?
+        m = PATTERN.match(line)
 
         statistic = Statistic.new
-        if m = PATTERNS[:context_id_pattern].match(line) then
-          statistic.context_id = m['context_id']
-        else
-          m = PATTERNS[:no_context_id_pattern].match(line)
-        end
 
         year = m['year'].to_i
         month = m['month'].to_i
@@ -56,6 +45,7 @@ module GroongaLog
         statistic.timestamp = Time.local(year, month, day,
                                          hour, minute, second, micro_second)
         statistic.log_level = log_level_to_symbol(m['log_level'])
+        statistic.context_id = m['context_id']
         statistic.message = m['message']
         yield statistic
       end
