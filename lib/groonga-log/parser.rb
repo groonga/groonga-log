@@ -30,7 +30,10 @@ module GroongaLog
       return to_enum(:parse, input) unless block_given?
 
       input.each_line do |line|
-        next unless line.valid_encoding?
+        if line.respond_to?(:valid_encoding?) then
+          next unless line.valid_encoding?
+        end
+
         m = PATTERN.match(line)
 
         statistic = Statistic.new
