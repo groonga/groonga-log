@@ -30,7 +30,7 @@ module GroongaLog
       return to_enum(:parse, input) unless block_given?
 
       input.each_line do |line|
-        if line.respond_to?(:valid_encoding?) then
+        if line.respond_to?(:valid_encoding?)
           next unless line.valid_encoding?
         end
 
