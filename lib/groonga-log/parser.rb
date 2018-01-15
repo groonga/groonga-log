@@ -26,6 +26,18 @@ module GroongaLog
           \|(?:(?<pid>\d+):)?
           \ (?<message>.*)/x
 
+    class << self
+      def target_line?(line)
+        if line.respond_to?(:valid_encodign?)
+          return false unless line.valid_eocoding?
+        end
+
+        return false unless PATTERN.match(line)
+
+        true
+      end
+    end
+
     def parse(input)
       return to_enum(:parse, input) unless block_given?
 
