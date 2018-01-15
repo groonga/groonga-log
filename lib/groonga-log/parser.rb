@@ -26,7 +26,7 @@ module GroongaLog
           \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)
           \|(?<log_level>.)
           \|(?:(?<pid>\d+):)?
-          \ (?<message>.*)/x
+          \ (?<message>[^\r\n]*)/x
     PATH_TIMESTAMP_PATTERN = /(\d{4})-(\d{2})-(\d{2})-
                               (\d{2})-(\d{2})-(\d{2})-(\d{6})\z/x
 
