@@ -28,7 +28,7 @@ module GroongaLog
 
     class << self
       def target_line?(line)
-        if line.respond_to?(:valid_encodign?)
+        if line.respond_to?(:valid_encoding?)
           return false unless line.valid_eocoding?
         end
 
