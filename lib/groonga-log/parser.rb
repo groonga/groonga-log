@@ -15,7 +15,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-require "groonga-log/statistic"
+require "groonga-log/entry"
 
 module GroongaLog
   class Parser
@@ -62,7 +62,7 @@ module GroongaLog
 
         m = PATTERN.match(line)
 
-        statistic = Statistic.new
+        entry = Entry.new
 
         year = m["year"].to_i
         month = m["month"].to_i
@@ -71,12 +71,12 @@ module GroongaLog
         minute = m["minute"].to_i
         second = m["second"].to_i
         micro_second = m["micro_second"].to_i
-        statistic.timestamp = Time.local(year, month, day,
-                                         hour, minute, second, micro_second)
-        statistic.log_level = log_level_to_symbol(m["log_level"])
-        statistic.pid = m["pid"].to_i if m["pid"]
-        statistic.message = m["message"]
-        yield statistic
+        entry.timestamp = Time.local(year, month, day,
+                                     hour, minute, second, micro_second)
+        entry.log_level = log_level_to_symbol(m["log_level"])
+        entry.pid = m["pid"].to_i if m["pid"]
+        entry.message = m["message"]
+        yield entry
       end
     end
 

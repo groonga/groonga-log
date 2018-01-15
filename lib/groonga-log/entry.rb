@@ -1,4 +1,4 @@
-# Copyright (C) 2017 Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2017-2018  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -15,9 +15,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 module GroongaLog
-  class Statistic < Struct.new(:timestamp,
-                               :log_level,
-                               :pid,
-                               :message)
+  class Entry < Struct.new(:timestamp,
+                           :log_level,
+                           :pid,
+                           :message)
   end
 end

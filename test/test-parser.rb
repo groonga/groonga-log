@@ -1,5 +1,6 @@
-# Copyright (C) 2017 Yasuhiro Horimoto <horimoto@clear-code.com>
-# Copyright (C) 2017 Kentaro Hayashi <hayashi@clear-code.com>
+# Copyright (C) 2017  Yasuhiro Horimoto <horimoto@clear-code.com>
+# Copyright (C) 2017  Kentaro Hayashi <hayashi@clear-code.com>
+# Copyright (C) 2018  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -20,31 +21,31 @@ require "helper"
 class ParserTest < Test::Unit::TestCase
   sub_test_case("extract fields") do
     def test_with_pid
-      raw_statistic = {
+      raw_entry = {
         :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
         :log_level => :notice,
         :pid => 29,
         :message => "spec:2:update:Object:32(type):8",
       }
-      statistics = parse(<<-LOG)
+      entries = parse(<<-LOG)
 2017-07-19 14:09:05.663978|n|29: spec:2:update:Object:32(type):8
       LOG
-      assert_equal([raw_statistic],
-                   statistics.collect(&:to_h))
+      assert_equal([raw_entry],
+                   entries.collect(&:to_h))
     end
 
     def test_without_pid
-      raw_statistic = {
+      raw_entry = {
         :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
         :log_level => :notice,
         :pid => nil,
         :message => "spec:2:update:Object:32(type):8",
       }
-      statistics = parse(<<-LOG)
+      entries = parse(<<-LOG)
 2017-07-19 14:09:05.663978|n| spec:2:update:Object:32(type):8
       LOG
-      assert_equal([raw_statistic],
-                   statistics.collect(&:to_h))
+      assert_equal([raw_entry],
+                   entries.collect(&:to_h))
     end
   end
 
@@ -60,7 +61,7 @@ class ParserTest < Test::Unit::TestCase
       :debug,
       :dump
     ]
-    statistics = parse(<<-LOG)
+    entries = parse(<<-LOG)
 2017-07-19 14:41:05.663978|E|29: emergency
 2017-07-19 14:41:06.663978|A| alert
 2017-07-19 14:41:06.663978|C|29: critical
@@ -72,7 +73,7 @@ class ParserTest < Test::Unit::TestCase
 2017-07-19 14:41:06.663978|-|29: dump
     LOG
     assert_equal(expected,
-                 statistics.collect(&:log_level))
+                 entries.collect(&:log_level))
   end
 
   private
