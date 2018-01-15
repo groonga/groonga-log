@@ -52,17 +52,6 @@ module GroongaLog
           end
         end
       end
-
-      def filter_paths(paths)
-        paths.reject do |path|
-          case File.extname(path).downcase
-          when ".zip", ".gz" # TODO: support decompress
-            true
-          else
-            false
-          end
-        end
-      end
     end
 
     def parse(input)
