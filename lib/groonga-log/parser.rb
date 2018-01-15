@@ -25,6 +25,8 @@ module GroongaLog
           \|(?<log_level>.)
           \|(?:(?<pid>\d+):)?
           \ (?<message>.*)/x
+    PATH_TIMESTAMP_PATTERN = /(\d{4})-(\d{2})-(\d{2})-
+                              (\d{2})-(\d{2})-(\d{2})-(\d{6})\z/x
 
     class << self
       def target_line?(line)
@@ -35,6 +37,18 @@ module GroongaLog
         return false unless PATTERN.match(line)
 
         true
+      end
+
+      def sort_paths(paths)
+        paths.sort_by do |path|
+          match_data = PATH_TIMESTAMP_PATTERN.match(File.basename(path))
+          if match_data
+            values = match_data.to_a[1..-1].collect(&:to_i)
+            Time.local(*values)
+          else
+            Time.now
+          end
+        end
       end
     end
 
@@ -63,6 +77,17 @@ module GroongaLog
         statistic.pid = m["pid"].to_i if m["pid"]
         statistic.message = m["message"]
         yield statistic
+      end
+    end
+
+    def parse_paths(paths, &block)
+      return to_enum(__method__, paths) unless block_given?
+
+      target_paths = self.class.sort_paths(filter_paths(paths))
+      target_paths.each do |path|
+        File.open(path) do |log|
+          parse(log, &block)
+        end
       end
     end
 
