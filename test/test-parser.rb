@@ -16,9 +16,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-require "helper"
-
-class ParserTest < Test::Unit::TestCase
+class InputTest < Test::Unit::TestCase
   sub_test_case("extract fields") do
     def test_with_pid
       raw_entry = {

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# Copyright (C) 2012-2013  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2012-2018  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -26,20 +26,13 @@ top_dir = base_dir.parent
 lib_dir = base_dir + "lib"
 test_dir = base_dir + "test"
 
-require "test-unit"
-require "test/unit/notify"
+require "test/unit"
 
 Test::Unit::Priority.enable
 
 $LOAD_PATH.unshift(lib_dir.to_s)
 
-$LOAD_PATH.unshift(test_dir.to_s)
-require "helper"
+require_relative "helper"
 
-Dir.glob("#{base_dir}/test/**/test{_,-}*.rb") do |file|
-  require file.sub(/\.rb\z/, '')
-end
 
-ENV["TEST_UNIT_MAX_DIFF_TARGET_STRING_SIZE"] ||= "5000"
-
-exit Test::Unit::AutoRunner.run
+exit(Test::Unit::AutoRunner.run(true, test_dir))

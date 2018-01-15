@@ -1,5 +1,6 @@
-# Copyright (C) 2017 Yasuhiro Horimoto <horimoto@clear-code.com>
-# Copyright (C) 2017 Kentaro Hayashi <hayashi@clear-code.com>
+# Copyright (C) 2017  Yasuhiro Horimoto <horimoto@clear-code.com>
+# Copyright (C) 2017  Kentaro Hayashi <hayashi@clear-code.com>
+# Copyright (C) 2018  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -16,6 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 require "groonga-log/entry"
+require "groonga-log/input"
 
 module GroongaLog
   class Parser
@@ -31,7 +33,7 @@ module GroongaLog
     class << self
       def target_line?(line)
         if line.respond_to?(:valid_encoding?)
-          return false unless line.valid_eocoding?
+          return false unless line.valid_encoding?
         end
 
         return false unless PATTERN.match(line)
@@ -47,6 +49,17 @@ module GroongaLog
             Time.local(*values)
           else
             Time.now
+          end
+        end
+      end
+
+      def filter_paths(paths)
+        paths.reject do |path|
+          case File.extname(path).downcase
+          when ".zip", ".gz" # TODO: support decompress
+            true
+          else
+            false
           end
         end
       end
@@ -83,9 +96,9 @@ module GroongaLog
     def parse_paths(paths, &block)
       return to_enum(__method__, paths) unless block_given?
 
-      target_paths = self.class.sort_paths(filter_paths(paths))
+      target_paths = self.class.sort_paths(paths)
       target_paths.each do |path|
-        File.open(path) do |log|
+        Input.open(path) do |log|
           parse(log, &block)
         end
       end

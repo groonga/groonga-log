@@ -1,6 +1,7 @@
-# -*- mode: ruby; coding: utf-8 -*-
+# -*- ruby -*-
 #
 # Copyright (C) 2017  Yasuhiro Horimoto <horimoto@clear-code.com>
+# Copyright (C) 2018  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -28,8 +29,8 @@ Gem::Specification.new do |spec|
   spec.name          = "groonga-log"
   spec.version       = GroongaLog::VERSION
 
-  spec.authors       = ["Horimoto Yasuhiro"]
-  spec.email         = ["horimoto@clear-code.com"]
+  spec.authors       = ["Horimoto Yasuhiro", "Kouhei Sutou"]
+  spec.email         = ["horimoto@clear-code.com", "kou@clear-code.com"]
 
   readme = File.read("README.md", :encoding => "UTF-8")
   entries = readme.split(/^\#\#\s(.*)$/)
@@ -44,9 +45,9 @@ Gem::Specification.new do |spec|
   spec.licenses      = ["LGPLv2.1+"]
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_runtime_dependency "archive-zip"
 
+  spec.add_development_dependency("bundler")
+  spec.add_development_dependency("rake")
   spec.add_development_dependency("test-unit")
-  spec.add_development_dependency("test-unit-notify")
 end
