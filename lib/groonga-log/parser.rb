@@ -54,6 +54,11 @@ module GroongaLog
       end
     end
 
+    attr_reader :current_path
+    def initialize
+      @current_path = nil
+    end
+
     def parse(input)
       return to_enum(:parse, input) unless block_given?
 
@@ -88,7 +93,12 @@ module GroongaLog
       target_paths = self.class.sort_paths(paths)
       target_paths.each do |path|
         Input.open(path) do |log|
-          parse(log, &block)
+          @current_path = path
+          begin
+            parse(log, &block)
+          ensure
+            @current_path = nil
+          end
         end
       end
     end
