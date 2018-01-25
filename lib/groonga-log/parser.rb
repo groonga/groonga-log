@@ -28,7 +28,8 @@ module GroongaLog
           \|(?:(?<pid>\d+):)?
           \ (?<message>[^\r\n]*)/x
     PATH_TIMESTAMP_PATTERN = /(\d{4})-(\d{2})-(\d{2})-
-                              (\d{2})-(\d{2})-(\d{2})-(\d{6})\z/x
+                              (\d{2})-(\d{2})-(\d{2})-(\d{6})
+                              (?:\.(?:gz|zip))?\z/xi
 
     class << self
       def target_line?(line)
