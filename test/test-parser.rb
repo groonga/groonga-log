@@ -74,6 +74,12 @@ class InputTest < Test::Unit::TestCase
                  entries.collect(&:log_level))
   end
 
+  def test_invalid_line
+    assert_equal([], parse(<<-LOG))
+invalid
+    LOG
+  end
+
   private
   def parse(log)
     parser = GroongaLog::Parser.new

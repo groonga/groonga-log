@@ -69,6 +69,7 @@ module GroongaLog
         end
 
         m = PATTERN.match(line)
+        next if m.nil?
 
         entry = Entry.new
 
