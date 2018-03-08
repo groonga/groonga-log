@@ -72,17 +72,17 @@ module GroongaLog
 
         entry = Entry.new
 
-        year = m["year"].to_i
-        month = m["month"].to_i
-        day = m["day"].to_i
-        hour = m["hour"].to_i
-        minute = m["minute"].to_i
-        second = m["second"].to_i
-        micro_second = m["micro_second"].to_i
+        year = Integer(m["year"], 10)
+        month = Integer(m["month"], 10)
+        day = Integer(m["day"], 10)
+        hour = Integer(m["hour"], 10)
+        minute = Integer(m["minute"], 10)
+        second = Integer(m["second"], 10)
+        micro_second = Integer(m["micro_second"], 10)
         entry.timestamp = Time.local(year, month, day,
                                      hour, minute, second, micro_second)
         entry.log_level = log_level_to_symbol(m["log_level"])
-        entry.pid = m["pid"].to_i if m["pid"]
+        entry.pid = Integer(m["pid"], 10) if m["pid"]
         entry.message = m["message"]
         yield entry
       end
