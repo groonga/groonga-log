@@ -68,23 +68,23 @@ module GroongaLog
           next unless line.valid_encoding?
         end
 
-        m = PATTERN.match(line)
-        next if m.nil?
+        match_data = PATTERN.match(line)
+        next if match_data.nil?
 
         entry = Entry.new
 
-        year = Integer(m["year"], 10)
-        month = Integer(m["month"], 10)
-        day = Integer(m["day"], 10)
-        hour = Integer(m["hour"], 10)
-        minute = Integer(m["minute"], 10)
-        second = Integer(m["second"], 10)
-        micro_second = Integer(m["micro_second"], 10)
+        year = Integer(match_data["year"], 10)
+        month = Integer(match_data["month"], 10)
+        day = Integer(match_data["day"], 10)
+        hour = Integer(match_data["hour"], 10)
+        minute = Integer(match_data["minute"], 10)
+        second = Integer(match_data["second"], 10)
+        micro_second = Integer(match_data["micro_second"], 10)
         entry.timestamp = Time.local(year, month, day,
                                      hour, minute, second, micro_second)
-        entry.log_level = log_level_to_symbol(m["log_level"])
-        entry.pid = Integer(m["pid"], 10) if m["pid"]
-        entry.message = m["message"]
+        entry.log_level = log_level_to_symbol(match_data["log_level"])
+        entry.pid = Integer(match_data["pid"], 10) if match_data["pid"]
+        entry.message = match_data["message"]
         yield entry
       end
     end
