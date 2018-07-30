@@ -25,8 +25,8 @@ module GroongaLog
       /\A(?<year>\d{4})-(?<month>\d\d)-(?<day>\d\d)
           \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)
           \|(?<log_level>.)
-          \|(?:(?<pid>\d+):)?
-          \ (?<message>[^\r\n]*)/x
+          \|(?:(?:(?<pid>\d+):|(?<thread_id>[\da-fA-F]+)\|))?
+          \ ?(?<message>[^\r\n]*)/x
     PATH_TIMESTAMP_PATTERN = /(\d{4})-(\d{2})-(\d{2})-
                               (\d{2})-(\d{2})-(\d{2})-(\d{6})
                               (?:\.(?:gz|zip))?\z/xi
@@ -85,6 +85,7 @@ module GroongaLog
         entry.log_level = log_level_to_symbol(match_data[:log_level])
         pid = match_data[:pid]
         entry.pid = Integer(pid, 10) if pid
+        entry.thread_id = match_data[:thread_id]
         entry.message = match_data[:message]
         yield entry
       end

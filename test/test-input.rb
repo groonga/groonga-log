@@ -29,12 +29,14 @@ class ParserTest < Test::Unit::TestCase
         :timestamp => Time.local(2018, 1, 15, 15, 1, 23, 305389),
         :log_level => :notice,
         :pid => nil,
+        :thread_id => nil,
         :message => "grn_init: <7.1.0-1-gef1bd38>",
       },
       {
         :timestamp => Time.local(2018, 1, 15, 15, 1, 23, 712541),
         :log_level => :notice,
         :pid => nil,
+        :thread_id => nil,
         :message => "grn_fin (0)",
       },
     ]
@@ -48,12 +50,14 @@ class ParserTest < Test::Unit::TestCase
         :timestamp => Time.local(2018, 1, 15, 15, 1, 23, 305389),
         :log_level => :notice,
         :pid => nil,
+        :thread_id => nil,
         :message => "grn_init: <7.1.0-1-gef1bd38>",
       },
       {
         :timestamp => Time.local(2018, 1, 15, 15, 1, 23, 712541),
         :log_level => :notice,
         :pid => nil,
+        :thread_id => nil,
         :message => "grn_fin (0)",
       },
     ]
@@ -67,12 +71,14 @@ class ParserTest < Test::Unit::TestCase
         :timestamp => Time.local(2018, 1, 15, 15, 1, 23, 305389),
         :log_level => :notice,
         :pid => nil,
+        :thread_id => nil,
         :message => "grn_init: <7.1.0-1-gef1bd38>",
       },
       {
         :timestamp => Time.local(2018, 1, 15, 15, 1, 23, 712541),
         :log_level => :notice,
         :pid => nil,
+        :thread_id => nil,
         :message => "grn_fin (0)",
       },
     ]

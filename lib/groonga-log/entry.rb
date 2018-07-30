@@ -18,6 +18,7 @@ module GroongaLog
   class Entry < Struct.new(:timestamp,
                            :log_level,
                            :pid,
+                           :thread_id,
                            :message)
   end
 end
