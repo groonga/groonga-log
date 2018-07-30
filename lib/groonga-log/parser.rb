@@ -23,9 +23,10 @@ module GroongaLog
   class Parser
     PATTERN =
       /\A(?<year>\d{4})-(?<month>\d\d)-(?<day>\d\d)
-          \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)
-          \|(?<log_level>.)
-          \|(?:(?:(?<pid>\d+):|(?<thread_id>[\da-fA-F]+)\|))?
+          \ (?<hour>\d\d):(?<minute>\d\d):(?<second>\d\d)\.(?<micro_second>\d+)\|
+          (?<log_level>.)\|
+          (?:(?<pid>\d+)[|:])?
+          (?:(?<thread_id>[\da-fA-F]+)[|:])?
           \ ?(?<message>[^\r\n]*)/x
     PATH_TIMESTAMP_PATTERN = /(\d{4})-(\d{2})-(\d{2})-
                               (\d{2})-(\d{2})-(\d{2})-(\d{6})

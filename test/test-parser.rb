@@ -62,6 +62,21 @@ class InputTest < Test::Unit::TestCase
       assert_equal([raw_entry],
                    entries.collect(&:to_h))
     end
+
+    def test_with_pid_and_thread_id
+      raw_entry = {
+        :timestamp => Time.local(2017, 7, 19, 14, 9, 5, 663978),
+        :log_level => :notice,
+        :pid => 29,
+        :thread_id => "528b9700",
+        :message => "spec:2:update:Object:32(type):8",
+      }
+      entries = parse(<<-LOG)
+2017-07-19 14:09:05.663978|n|29|528b9700: spec:2:update:Object:32(type):8
+      LOG
+      assert_equal([raw_entry],
+                   entries.collect(&:to_h))
+    end
   end
 
   def test_log_level
