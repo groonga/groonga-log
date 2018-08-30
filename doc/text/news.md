@@ -1,5 +1,15 @@
 # News
 
+## 0.1.3: 2018-08-30
+
+### Improvements
+
+  * Added support for ignoring broken lines.
+
+  * Added support for Mroonga style log.
+
+  * Added support for both process ID and thread ID case.
+
 ## 0.1.2: 2018-02-04
 
 ### Improvements
